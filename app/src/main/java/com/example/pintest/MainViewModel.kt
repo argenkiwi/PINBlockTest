@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.lang.NumberFormatException
 
+const val PAN = "1111222233334444"
+
 class MainViewModel : ViewModel() {
 
     private val _output = MutableLiveData<Output>()
@@ -14,12 +16,11 @@ class MainViewModel : ViewModel() {
 
     fun update(input: String) {
         try {
-            val pin = input.toLong()
-            _output.value = Output.Result(pin.toPINBLock())
-        } catch (e: NumberFormatException) {
+            _output.value = Output.Result(toPINBlock(input, PAN))
+        } catch (e: Exception) {
             _output.value = Output.Error
         }
     }
 }
 
-fun Long.toPINBLock() = toString()
+fun toPINBlock(pin: String, pan: String) = ""
