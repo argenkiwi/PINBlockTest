@@ -17,7 +17,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(this.binding.root)
 
         model.output.observe(this) {
-            binding.output.text = it
+            binding.output.text = when (it) {
+                is Output.Error -> getString(R.string.invalid_pin);
+                is Output.Result -> getString(R.string.pin_block, it.result)
+            }
         }
 
         binding.input.addTextChangedListener {

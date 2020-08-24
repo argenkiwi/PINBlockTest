@@ -2,5 +2,6 @@
     <string name="app_name">PINTest</string>
     <string name="enter_a_4_to_12_digits_pin">Enter a 4 to 12 digits PIN</string>
     <string name="enter_pin">Enter PIN</string>
-    <string name="your_pin_is">Your PIN is: %s</string>
+    <string name="pin_block">PIN Block: %s</string>
+    <string name="invalid_pin">Invalid PIN</string>
 </resources>
