@@ -3,9 +3,11 @@ package com.example.pintest
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import java.util.*
-import kotlin.experimental.xor
-import kotlin.math.min
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
 const val PAN = "1111222233334444"
@@ -18,10 +20,12 @@ class MainViewModel : ViewModel() {
         get() : LiveData<Output> = _output
 
     fun update(input: String) {
-        try {
-            _output.value = Output.Result(toPINBlock(input, PAN))
-        } catch (e: Exception) {
-            _output.value = Output.Error
+        viewModelScope.launch {
+            try {
+                _output.value = Output.Result(toPINBlock(input, PAN))
+            } catch (e: Exception) {
+                _output.value = Output.Error
+            }
         }
     }
 }
@@ -47,7 +51,7 @@ fun toPANBlock(pan: String): String {
     return String(panBlock)
 }
 
-fun toPINBlock(input: String, pan: String): String {
+suspend fun toPINBlock(input: String, pan: String): String {
     when {
         input.toLongOrNull() == null -> throw Exception("Invalid PIN format")
         input.length < 4 -> throw Exception("Invalid PIN length")

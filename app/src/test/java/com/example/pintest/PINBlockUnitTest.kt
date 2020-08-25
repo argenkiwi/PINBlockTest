@@ -1,5 +1,6 @@
 package com.example.pintest
 
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -12,7 +13,7 @@ import org.junit.Assert.*
 class PINBlockUnitTest {
 
     @Test
-    fun toIPB(){
+    fun toIPB() {
         // Arrange
         val pin = "123456"
 
@@ -24,7 +25,7 @@ class PINBlockUnitTest {
     }
 
     @Test
-    fun toPANBlock(){
+    fun toPANBlock() {
         // Arrange
         val pan = "111222333444555";
 
@@ -42,7 +43,9 @@ class PINBlockUnitTest {
         val pan = "111222333444555";
 
         // Act
-        val pinBlock = toPINBlock(pin, pan)
+        val pinBlock = runBlocking {
+            toPINBlock(pin, pan)
+        }
 
         // Assert
         assertTrue(pinBlock.startsWith("36121675"))
